@@ -1,0 +1,12 @@
+# compiled binaries
+__pycache__
+*.pyc
+
+# IDE
+.idea
+
+# python virtual env
+# don't create virtual envs under repo root
+
+# node installed libs
+node_modules
