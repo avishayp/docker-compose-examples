@@ -1,0 +1,15 @@
+# ==========================================
+# example1
+#
+# hello world
+#
+# docker-compose up
+# ==========================================
+
+version: '2'
+
+services:
+
+  hello:
+    image: alpine
+    command: echo hello world

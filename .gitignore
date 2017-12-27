@@ -2,11 +2,11 @@
 __pycache__
 *.pyc
 
-# IDE
+# dev
 .idea
 
-# python virtual env
-# don't create virtual envs under repo root
-
-# node installed libs
+# build
 node_modules
+
+# test
+.tox

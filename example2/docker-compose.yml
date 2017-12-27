@@ -1,0 +1,29 @@
+# ==========================================
+# example2
+#
+# with Dockerfile
+# using magical scratch image
+#
+# docker-compose up
+# ==========================================
+
+version: '2'
+
+services:
+
+  builder:
+    image: frolvlad/alpine-gcc
+    command: sh -c 'echo "int main() { return 0; }" | gcc -xc -static - -o /tmp/a.out'
+    volumes:
+      - shared:/tmp
+
+  tester:
+    build: .
+    command: ./tmp/a.out
+    volumes:
+      - shared:/tmp
+    depends_on:
+      - builder
+
+volumes:
+  shared:
