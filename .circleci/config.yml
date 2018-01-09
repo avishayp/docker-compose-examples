@@ -1,0 +1,58 @@
+### =============================================================
+### This configuration file is used by CircleCI build server
+### https://circleci.com/docs/config-sample
+### =============================================================
+
+version: 2
+
+jobs:
+
+  pep8:
+    docker:
+      - image: circleci/python:3.6
+
+    steps:
+      - restore_cache:
+          key: v1-venv
+
+      - run:
+          name: create venv
+          command: |
+            python -m venv /tmp/venv
+            . /tmp/venv/bin/activate
+            pip install tox
+
+      - save_cache:
+          key: v1-venv
+          paths:
+            - /tmp/venv
+
+      - checkout
+
+      - run:
+          name: enforce pep8
+          command: |
+            . /tmp/venv/bin/activate
+            tox -e pep
+
+  all-examples:
+    machine: true
+
+    steps:
+
+      - checkout
+
+      - run: ./run.sh
+
+
+workflows:
+  version: 2
+
+  docker-compose-examples:
+
+    jobs:
+
+      - pep8
+      - all-examples:
+          requires:
+            - pep8

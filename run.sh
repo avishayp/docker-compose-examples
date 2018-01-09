@@ -56,8 +56,7 @@ run_example() {
     if has_tester_service ; then
         bg_probe_exit "$1" &
         BG_PROBE_PID=$!
-        up
-        wait $BG_PROBE_PID
+        up && wait $BG_PROBE_PID || kill $BG_PROBE_PID
     else
         echo "$1 has no tester service"
         up
