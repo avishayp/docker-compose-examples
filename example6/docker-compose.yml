@@ -1,0 +1,36 @@
+# ==========================================
+# example6
+#
+# wsgi app
+#
+# docker-compose up --exit-code-from tester
+# ==========================================
+
+version: '2'
+
+
+services:
+
+  lb:
+    build: nginx
+    ports:
+      - 8080:8080
+    depends_on:
+      - webapp
+    volumes:
+      - socket:/var/run/wsgi
+
+  webapp:
+    build: webapp
+    volumes:
+      - socket:/var/run/wsgi
+    entrypoint: uwsgi --ini wsgi.ini
+
+  tester:
+    build: tester
+    depends_on:
+      - lb
+    network_mode: host
+
+volumes:
+  socket:
