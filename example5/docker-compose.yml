@@ -1,0 +1,23 @@
+# ==========================================
+# example5
+#
+# services communication with zmq
+#
+# docker-compose up --exit-code-from tester
+# ==========================================
+
+version: '2'
+
+services:
+
+  server:
+    build: .
+    environment:
+      ROLE: server
+
+  tester:
+    build: .
+    environment:
+      HOST: server
+    links:
+      - server
