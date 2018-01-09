@@ -1,0 +1,21 @@
+# ==========================================
+# example3
+#
+# basic webapp
+#
+# docker-compose up
+# ==========================================
+
+version: '2'
+
+services:
+
+  server:
+    build: .
+    entrypoint: httpd -f -p 8000
+
+  tester:
+    image: byrnedo/alpine-curl
+    command: curl -s server:8000
+    links:
+      - server
