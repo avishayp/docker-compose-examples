@@ -1,0 +1,40 @@
+# ==========================================
+# example4
+#
+# services communication with redis Q
+#
+# docker-compose up --exit-code-from tester
+# ==========================================
+
+version: '2'
+
+services:
+
+  redis:
+    image: redis:alpine
+
+  producer:
+    build: .
+    environment:
+      Qout: Q1
+    links:
+      - redis
+
+  serv2:
+    build: .
+    environment:
+      Qin: Q1
+      Qout: Q2
+    links:
+      - redis
+    depends_on:
+      - producer
+
+  tester:
+    build: .
+    environment:
+      Qin: Q2
+    links:
+      - redis
+    depends_on:
+      - serv2
