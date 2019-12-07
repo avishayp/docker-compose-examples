@@ -1,0 +1,26 @@
+# ==========================================
+# example7
+#
+# nodejs app
+#
+# docker-compose up --exit-code-from tester
+# ==========================================
+
+version: '3'
+
+services:
+
+  lb:
+    build: nginx
+    ports:
+      - 8080:8080
+    depends_on:
+      - webapp
+
+  webapp:
+    build: webapp
+
+  tester:
+    build: tester
+    depends_on:
+      - lb
